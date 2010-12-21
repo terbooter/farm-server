@@ -10,14 +10,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101217110929) do
+ActiveRecord::Schema.define(:version => 20101220181805) do
 
   create_table "field_objects", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "type_id",    :default => 0
-    t.integer  "x",          :default => 0
-    t.integer  "y",          :default => 0
-    t.integer  "grow_stage", :default => 0
+    t.integer  "type_id",     :default => 0
+    t.integer  "x",           :default => 0
+    t.integer  "y",           :default => 0
+    t.integer  "process_end", :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(:version => 20101217110929) do
     t.integer  "money",      :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "size_x",     :default => 0
+    t.integer  "size_y",     :default => 0
   end
 
   add_foreign_key "field_objects", "users", :name => "field_objects_user_id_fk"

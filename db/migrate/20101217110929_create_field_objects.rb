@@ -8,7 +8,7 @@ class CreateFieldObjects < ActiveRecord::Migration
 	  t.integer :x, :default=>0
 	  t.integer :y, :default=>0
 	  #По-хорошему это надо вынести в таблицу plants, но не будем пока усложнять
-	  t.integer :grow_stage, :default=>0
+	  t.integer :process_end, :default=>0
       t.timestamps
     end
     add_index(:field_objects, :user_id)
