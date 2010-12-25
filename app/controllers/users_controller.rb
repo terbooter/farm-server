@@ -11,6 +11,7 @@ class UsersController < ApplicationController
 	def restore
 		doc = REXML::Document.new
      	root = doc.add_element( "Response" )
+     	root.attributes["c"]="user"
      	@user = User.find(params[:id])
      	
      	element = root.add_element("id")
