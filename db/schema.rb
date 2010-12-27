@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101220181805) do
+ActiveRecord::Schema.define(:version => 20101227132436) do
 
   create_table "field_objects", :force => true do |t|
     t.integer  "user_id"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20101220181805) do
     t.integer  "process_end", :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "grow_period", :default => 1
   end
 
   add_index "field_objects", ["user_id"], :name => "index_field_objects_on_user_id"
