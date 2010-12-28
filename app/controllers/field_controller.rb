@@ -1,4 +1,5 @@
 require "rexml/document"
+require "./app/helpers/my_general_helper.rb"
 class FieldController < ApplicationController
 		def restore
 			@objects = FieldObject.where("user_id = #{params[:id]}");
@@ -116,5 +117,57 @@ class FieldController < ApplicationController
 		#send_data( doc, :type => "text/xml", :filename => "sample.xml" )
 		send_data( doc, :type => "text/xml")
 		
+	end
+	
+	def seed
+
+		#doc = MyGeneralHelper::generateErrorXML("errrr")
+		@objects = FieldObject.where("user_id = #{params[:id]} AND x = #{params[:x]} AND y= #{params[:y]}");
+		
+     	if @objects.length==1
+     		doc = generateErrorXML("cant_seed_here")
+     		send_data( doc, :type => "text/xml")
+     		return
+ 		end
+ 		
+ 		obj = FieldObject.new(:user_id=>params[:id], :type_id=>params[:type_id], :x=>params[:x], :y=>params[:y])
+ 		#obj.type_id = params[:type_id]
+ 		
+ 		obj.save
+ 		puts "==========="+obj.to_s
+ 		puts "==========="+obj.type_id.to_s
+ 		
+ 		doc = REXML::Document.new
+     	root = doc.add_element( "Response" )
+     	field = root.add_element( "Field" )
+     	createObjNode(obj, field)
+     	root.attributes["c"]="field_change"
+     	send_data( doc, :type => "text/xml")
+	end
+	
+	def crop
+		obj = FieldObject.find_by_id(params[:obj_id]);
+		if(obj==nil)
+			doc = generateErrorXML("object_not_found")
+     		send_data( doc, :type => "text/xml")
+     		return
+		end
+		if(obj.grow_period!=5)
+			doc = generateErrorXML("object_not_ready_for_crop")
+     		send_data( doc, :type => "text/xml")
+     		return
+		end
+		
+		obj.type_id=0;
+		obj.destroy
+		
+		puts "==============="+obj.id.to_s;
+		doc = REXML::Document.new
+     	root = doc.add_element( "Response" )
+     	field = root.add_element( "Field" )
+     	createObjNode(obj, field)
+     	root.attributes["c"]="field_change"
+     	
+     	send_data( doc, :type => "text/xml")
 	end
 end
